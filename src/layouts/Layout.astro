@@ -1,5 +1,6 @@
 ---
 import "../css/style.scss";
+import { ViewTransitions } from "astro:transitions";
 const { title } = Astro.props;
 ---
 
@@ -9,8 +10,32 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <ViewTransitions />
   </head>
   <body>
-    <main><slot /></main>
+    <div class="wrapper">
+      <main><slot /></main>
+      <aside>サイドバー</aside>
+    </div>
   </body>
 </html>
+
+<style lang="scss">
+  .wrapper {
+    width: min(94%, 1200px);
+    margin: 0 auto;
+    display: flex;
+    overflow: hidden;
+    gap: 32px;
+    // flex-wrap: wrap;
+  }
+  main {
+    flex-shrink: 1;
+    margin: 0 auto;
+  }
+  aside {
+    width: 300px;
+    flex-shrink: 0;
+    background-color: #fcc;
+  }
+</style>

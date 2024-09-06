@@ -1,6 +1,7 @@
 ---
 import { getBlogs } from "../library/microcms";
 import Layout from "../layouts/Layout.astro";
+import { fade } from "astro:transitions";
 const response = await getBlogs({ fields: ["id", "title", "thumbnail"] });
 ---
 
@@ -12,7 +13,7 @@ const response = await getBlogs({ fields: ["id", "title", "thumbnail"] });
           <li>
             <a href={`/blog/${blog.id}`}>
               <>
-                <figure>
+                <figure transition:name={blog.id}>
                   <img src={blog.thumbnail?.url} width={blog.thumbnail.width} height={blog.thumbnail.height} />
                 </figure>
                 <h2>{blog.title}</h2>
@@ -25,16 +26,13 @@ const response = await getBlogs({ fields: ["id", "title", "thumbnail"] });
   </ul>
 </Layout>
 
-<style lang="scss">
+<style>
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
   figure {
-    margin: 0;
-    width: 160px;
-    height: 90px;
     aspect-ratio: 16/9;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
   }
 </style>
