@@ -1,0 +1,73 @@
+---
+// const data = await fetch("https://shin-pf.uchiwa-design.net/wp-json/wp/v2/web-tips");
+// const posts = await data.json();
+// console.log(posts);
+
+export async function getStaticPaths() {
+  //マークダウンファイルをすべて取得
+  const allPosts = await Astro.glob("../blog/*.md");
+
+  //すべての投稿からタグを一意に取得
+  const uniqueTags = [
+    ...new Set(
+      allPosts
+        .map((post) => {
+          return post.frontmatter.tags;
+        })
+        .flat()
+    ),
+  ];
+
+  //タグごとにフィルタリング
+  return uniqueTags.map((tag) => {
+    //投稿をタグごとにフィルタリング
+    //※filteredPostsには各タグに属する投稿が含まれる
+    const filteredPosts = allPosts.filter((post) => {
+      return post.frontmatter.tags.includes(tag);
+    });
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const filteredPosts = Astro.props.posts;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>タグ:{tag}のブログ一覧</h1>
+    <ul>
+      {
+        filteredPosts.map((post) => {
+          return (
+            <li>
+              <a href={post.url}>{post.frontmatter.title}</a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </body>
+</html>
+
+<style lang="scss">
+  figure {
+    margin: 0;
+    width: 160px;
+    height: 90px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+</style>

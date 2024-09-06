@@ -1,0 +1,18 @@
+---
+import Nav from "../components/Nav.astro";
+const {frontmatter} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{frontmatter.title}</title>
+ </head>
+ <body>
+	<h1>Astro 練習サイト</h1>
+    <Nav/>
+	<slot />
+ </body>
+</html>

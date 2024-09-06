@@ -10,6 +10,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.15.3"
+    "astro": "^4.15.3",
+    "microcms-js-sdk": "^3.1.2",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-organize-imports": "^4.0.0",
+    "sass": "^1.78.0"
   }
 }

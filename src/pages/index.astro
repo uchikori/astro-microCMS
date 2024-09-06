@@ -1,16 +1,40 @@
 ---
-
+import { getBlogs } from "../library/microcms";
+import Layout from "../layouts/Layout.astro";
+const response = await getBlogs({ fields: ["id", "title", "thumbnail"] });
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <ul>
+    {
+      response.contents.map((blog) => {
+        return (
+          <li>
+            <a href={`/blog/${blog.id}`}>
+              <>
+                <figure>
+                  <img src={blog.thumbnail?.url} width={blog.thumbnail.width} height={blog.thumbnail.height} />
+                </figure>
+                <h2>{blog.title}</h2>
+              </>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</Layout>
+
+<style lang="scss">
+  figure {
+    margin: 0;
+    width: 160px;
+    height: 90px;
+    aspect-ratio: 16/9;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+</style>
