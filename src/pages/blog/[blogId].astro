@@ -21,7 +21,7 @@ const blog = await getBlogDetail(blogId, { fields: ["title", "thumbnail", "conte
 ---
 
 <Layout title={blog.title}>
-  <h1>{blog.title}</h1>
+  <h1 transition:name={`${blogId}-title`}>{blog.title}</h1>
   <p class="publishedAt">公開日時：{blog.publishedAt.substring(0, 10)}</p>
   <div>
     <figure transition:name={blogId}>
@@ -30,3 +30,20 @@ const blog = await getBlogDetail(blogId, { fields: ["title", "thumbnail", "conte
     <div class="blogContent" set:html={blog.content} />
   </div>
 </Layout>
+
+<style>
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  figure {
+    aspect-ratio: 16/9;
+  }
+
+  @media screen and (max-width: 768px) {
+    ul {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+</style>

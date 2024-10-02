@@ -16,7 +16,7 @@ const response = await getBlogs({ fields: ["id", "title", "thumbnail"] });
                 <figure transition:name={blog.id}>
                   <img src={blog.thumbnail?.url} width={blog.thumbnail.width} height={blog.thumbnail.height} />
                 </figure>
-                <h2>{blog.title}</h2>
+                <h2 transition:name={`${blog.id}-title`}>{blog.title}</h2>
               </>
             </a>
           </li>
@@ -34,5 +34,11 @@ const response = await getBlogs({ fields: ["id", "title", "thumbnail"] });
   }
   figure {
     aspect-ratio: 16/9;
+  }
+
+  @media screen and (max-width: 768px) {
+    ul {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
   }
 </style>
